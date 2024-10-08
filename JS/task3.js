@@ -1,13 +1,20 @@
-const isConfirmed3 = confirm("вивести результат 3-го завдання??");
-if (isConfirmed3) {
-    console.log(getElementWidth("50px", "8px", "4px"));
-    console.log(getElementWidth("60px", "12px", "8.5px"));
-    console.log(getElementWidth("200px", "0px", "0px"));
-}
+console.log(filterArray([1, 2, 3, 4, 5], 3)); // [4, 5]
+console.log(filterArray([1, 2, 3, 4, 5], 4)); // [5]
+console.log(filterArray([1, 2, 3, 4, 5], 5)); // []
+console.log(filterArray([12, 24, 8, 41, 76], 38)); // [41, 76]
+console.log(filterArray([12, 24, 8, 41, 76], 20)); // [24, 41, 76]
 
-function getElementWidth(content, padding, border) {
-    let contentWidth = parseFloat(content);
-    let paddingWidth = parseFloat(padding) * 2;
-    let borderWidth = parseFloat(border) * 2;
-    return contentWidth + paddingWidth + borderWidth;
-}
+function filterArray(numbers, value) 
+{
+    const filteredNumbers = [];
+    
+    for (let i = 0; i < numbers.length; i++) 
+    {
+      if (numbers[i] > value) 
+      {
+        filteredNumbers.push(numbers[i]);
+      }
+    }
+    return filteredNumbers;
+  }
+  
