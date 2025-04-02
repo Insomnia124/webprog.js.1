@@ -1,28 +1,38 @@
-function getShippingCost(country) {
-    let price;
-    switch (country) {
-        case "China":
-            price = 100;
-            break;
-        case "Chile":
-            price = 250;
-            break;
-        case "Australia":
-            price = 170;
-            break;
-        case "Jamaica":
-            price = 120;
-            break;
-        default:
-            return "Sorry, there is no delivery to your country";
-    }
-    return `Shipping to ${country} will cost ${price} credits`;
-}
+import flatpickr from "flatpickr";
+import "flatpickr/dist/flatpickr.min.css";
 
-// Проверка
-console.log(getShippingCost("Australia")); // "Shipping to Australia will cost 170 credits"
-console.log(getShippingCost("Germany")); // "Sorry, there is no delivery to your country"
-console.log(getShippingCost("China")); // "Shipping to China will cost 100 credits"
-console.log(getShippingCost("Chile")); // "Shipping to Chile will cost 250 credits"
-console.log(getShippingCost("Jamaica")); // "Shipping to Jamaica will cost 120 credits"
-console.log(getShippingCost("Sweden")); // "Sorry, there is no delivery to your country"
+let userSelectedDate;
+const startBtn = document.getElementById("start");
+flatpickr("#datetime-picker", {
+    enableTime: true,
+    time_24hr: true,
+    defaultDate: new Date(),
+    minuteIncrement: 1,
+    onClose(selectedDates) {
+        userSelectedDate = selectedDates[0];
+        if (userSelectedDate < new Date()) {
+            alert("Please choose a date in the future");
+            startBtn.disabled = true;
+        } else {
+            startBtn.disabled = false;
+        }
+    }
+});
+startBtn.addEventListener("click", () => {
+    let interval = setInterval(() => {
+        let now = new Date();
+        let diff = userSelectedDate - now;
+        if (diff <= 0) {
+            clearInterval(interval);
+            return;
+        }
+        let days = Math.floor(diff / (1000 * 60 * 60 * 24));
+        let hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+        let minutes = Math.floor((diff / (1000 * 60)) % 60);
+        let seconds = Math.floor((diff / 1000) % 60);
+        document.getElementById("days").innerText = days;
+        document.getElementById("hours").innerText = hours;
+        document.getElementById("minutes").innerText = minutes;
+        document.getElementById("seconds").innerText = seconds;
+    }, 1000);
+});
